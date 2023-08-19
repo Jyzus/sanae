@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { BiLogOutCircle } from "react-icons/bi";
 import { startLogout } from "../../../store/auth/thunks";
+import { NavbarLink } from "./NavbarLink";
+import { NavOptions } from "./NavOptions";
 
 export const Navbar = () => {
-  const { photoURL } = useSelector((state) => state.auth);
+  const { photoURL, displayName } = useSelector((state) => state.auth);
   const [navbar, setNavbar] = useState(false);
   const modalRef = useRef(null);
 
@@ -19,7 +21,7 @@ export const Navbar = () => {
   };
   return (
     <>
-      <nav className="bg-white overflow-hidden">
+      <nav className="bg-white overflow-hidden shadow-md">
         <div className="container mx-auto relative p-4 flex justify-between items-center bg-white">
           <Link
             to={"/"}
@@ -43,47 +45,20 @@ export const Navbar = () => {
               </svg>
             </button>
           </div>
-          <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-            <li>
-              <a className="text-sm text-gray-400 hover:text-gray-500" href="#">
-                Home
-              </a>
-            </li>
-            <li className="text-gray-300">
-              <span>|</span>
-            </li>
-            <li>
-              <a className="text-sm text-blue-600 font-bold" href="#">
-                About Us
-              </a>
-            </li>
-            <li className="text-gray-300">
-              <span>|</span>
-            </li>
-            <li>
-              <a className="text-sm text-gray-400 hover:text-gray-500" href="#">
-                Services
-              </a>
-            </li>
-            <li className="text-gray-300">
-              <span>|</span>
-            </li>
-            <li>
-              <a className="text-sm text-gray-400 hover:text-gray-500" href="#">
-                Pricing
-              </a>
-            </li>
-            <li className="text-gray-300">
-              <span>|</span>
-            </li>
-            <li>
-              <a className="text-sm text-gray-400 hover:text-gray-500" href="#">
-                Contact
-              </a>
-            </li>
+          <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex gap-8 lg:items-center lg:w-auto lg:space-x-6">
+            {NavOptions.map((option) => (
+              <li key={option.name}>
+                <NavbarLink
+                  name={option.name}
+                  link={option.link}
+                  active="text-sm text-blue-600 font-bold"
+                  pending="text-sm text-gray-400 hover:text-gray-500"
+                />
+              </li>
+            ))}
           </ul>
           <button
-            className="hidden lg:flex items-center gap-2 lg:ml-auto lg:mr-8 border border-red-400 px-4 py-1 rounded-md bg-gray-50 hover:bg-red-400 hover:text-white text-red-400 transition duration-200"
+            className="hidden lg:flex items-center gap-2 lg:ml-auto lg:mr-8 btn btn-sm btn-outline btn-error"
             onClick={() => modalRef.current.showModal()}
           >
             <BiLogOutCircle className="text-2xl" />
@@ -95,7 +70,7 @@ export const Navbar = () => {
               <p className="my-2">¿Estás seguro de cerrar sesión?</p>
               <div className="flex items-center justify-evenly">
                 <form method="dialog">
-                  <button className="btn">Close</button>
+                  <button className="btn">Cancelar</button>
                 </form>
                 <button
                   className="btn btn-outline btn-error"
@@ -152,62 +127,38 @@ export const Navbar = () => {
             </div>
             <div>
               <ul>
-                <li className="mb-1">
-                  <a
-                    className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
-                    href="#"
-                  >
-                    Home
-                  </a>
-                </li>
-                <li className="mb-1">
-                  <a
-                    className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
-                    href="#"
-                  >
-                    About Us
-                  </a>
-                </li>
-                <li className="mb-1">
-                  <a
-                    className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
-                    href="#"
-                  >
-                    Services
-                  </a>
-                </li>
-                <li className="mb-1">
-                  <a
-                    className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
-                    href="#"
-                  >
-                    Pricing
-                  </a>
-                </li>
-                <li className="mb-1">
-                  <a
-                    className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
-                    href="#"
-                  >
-                    Contact
-                  </a>
-                </li>
+                {NavOptions.map((option) => (
+                  <li className="mb-1" onClick={toggleNavbar}>
+                    <Link
+                      to={option.link}
+                      className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+                    >
+                      {option.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="mt-auto">
               <div className="pt-6">
-                <a
-                  className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-red-100 rounded-xl"
-                  href="#"
+                <button
+                  className="inline-block w-full m-auto btn btn-md mb-2 btn-outline btn-error leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-red-100 rounded-xl"
+                  onClick={() => modalRef.current.showModal()}
                 >
                   Cerrar sesión
-                </a>
-                <a
-                  className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl"
-                  href="#"
+                </button>
+                <Link
+                  className="flex items-center justify-center gap-4 btn btn-md btn-outline mb-2 leading-loose"
+                  to={"/profile"}
+                  onClick={toggleNavbar}
                 >
-                  Sign Up
-                </a>
+                  <img
+                    src={photoURL}
+                    alt="avatar..."
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <span>{displayName}</span>
+                </Link>
               </div>
             </div>
           </nav>
