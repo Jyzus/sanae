@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { LoginPage } from "../page/LoginPage";
+import { LoginPage } from "@pages/auth/LoginPage";
 
 export const AuthRoutes = () => {
   return (

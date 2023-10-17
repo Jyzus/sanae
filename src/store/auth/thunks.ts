@@ -1,14 +1,15 @@
+import { CustomDispatch } from "..";
 import { logoutFirebase, signInWithGoogle } from "../../firebase/providers";
 import { checking, login, logout } from "./authSlice";
 
 export const checkingAuthentication = () => {
-  return async (dispatch) => {
+  return async (dispatch: CustomDispatch) => {
     dispatch(checking());
   };
 };
 
 export const startSignInWithGoogle = () => {
-  return async (dispatch) => {
+  return async (dispatch: CustomDispatch) => {
     dispatch(checking());
 
     const result = await signInWithGoogle();
@@ -19,7 +20,7 @@ export const startSignInWithGoogle = () => {
 };
 
 export const startLogout = () => {
-  return async (dispatch) => {
+  return async (dispatch: CustomDispatch) => {
     await logoutFirebase();
 
     dispatch(logout({}));

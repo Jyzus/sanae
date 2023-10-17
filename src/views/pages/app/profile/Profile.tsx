@@ -1,7 +1,9 @@
-import { useSelector } from "react-redux";
+import { useCustomSelector } from "@hooks/redux";
 
 export const Profile = () => {
-  const { displayName, photoURL, email } = useSelector((state) => state.auth);
+  const { displayName, photoURL, email } = useCustomSelector(
+    (state) => state.auth
+  );
   return (
     <div className="w-full min-h-screen bg-sky-50">
       <div
@@ -13,7 +15,7 @@ export const Profile = () => {
       ></div>
       <div className="w-[98%] mx-auto rounded-lg relative bg-white p-8">
         <img
-          src={photoURL}
+          src={photoURL ? photoURL : "/img/noUser.jpg"}
           className="absolute rounded-full w-24 h-24 -top-12 left-1/2 -translate-x-1/2"
         />
         <div className="pt-8">

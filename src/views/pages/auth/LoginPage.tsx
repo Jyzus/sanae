@@ -1,10 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import { ButtonLogin } from "../components/ButtonLogin";
-import { startSignInWithGoogle } from "../../store/auth/thunks";
+import { ButtonLogin } from "@components/buttons/ButtonLogin";
+import { useCustomDispatch, useCustomSelector } from "@hooks/redux";
+import { startSignInWithGoogle } from "../../../store/auth/thunks";
+import { LogoPath } from "../../components/LogoPath";
 
 export const LoginPage = () => {
-  const { errorMessage } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const { errorMessage } = useCustomSelector((state) => state.auth);
+  const dispatch = useCustomDispatch();
 
   const onGoogleSignIn = () => {
     dispatch(startSignInWithGoogle());
@@ -16,12 +17,7 @@ export const LoginPage = () => {
           <div className="rounded-xl bg-white shadow-xl">
             <div className="p-6 sm:p-16">
               <div className="space-y-4">
-                <img
-                  src="https://tailus.io/sources/blocks/social/preview/images/icon.svg"
-                  loading="lazy"
-                  className="w-10"
-                  alt="tailus logo"
-                />
+                <LogoPath />
                 <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
                   Inicia sesión y empieza <br /> tu aprendizaje.
                 </h2>

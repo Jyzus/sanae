@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .grid-cardsPresentation{
+        @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 container mx-auto px-4 gap-4
+    }
+}

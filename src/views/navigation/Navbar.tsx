@@ -1,17 +1,17 @@
-import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { LogoPath } from "@components/LogoPath";
+import { useCustomDispatch, useCustomSelector } from "@hooks/redux";
+import { startLogout } from "@store/auth/thunks";
+import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { BiLogOutCircle } from "react-icons/bi";
-import { startLogout } from "../../../store/auth/thunks";
-import { NavbarLink } from "./NavbarLink";
+import { LogOutModal } from "./LogOutModal";
 import { NavOptions } from "./NavOptions";
+import { NavbarLink } from "./NavbarLink";
 
 export const Navbar = () => {
-  const { photoURL, displayName } = useSelector((state) => state.auth);
+  const { photoURL, displayName } = useCustomSelector((state) => state.auth);
   const [navbar, setNavbar] = useState(false);
-  const modalRef = useRef(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useCustomDispatch();
 
   const toggleNavbar = () => {
     setNavbar(!navbar);
@@ -25,9 +25,10 @@ export const Navbar = () => {
         <div className="container mx-auto relative p-4 flex justify-between items-center bg-white">
           <Link
             to={"/"}
-            className="text-xl font-bold leading-none text-blue-500"
+            className="text-xl font-bold leading-none flex items-center gap-3"
           >
-            <p>Sanae</p>
+            <LogoPath />
+            <span className="">Sanae</span>
           </Link>
           <div className="lg:hidden">
             <button
@@ -51,42 +52,23 @@ export const Navbar = () => {
                 <NavbarLink
                   name={option.name}
                   link={option.link}
-                  active="text-sm text-blue-600 font-bold"
+                  active="text-sm text-principal font-bold"
                   pending="text-sm text-gray-400 hover:text-gray-500"
                 />
               </li>
             ))}
           </ul>
-          <button
-            className="hidden lg:flex items-center gap-2 lg:ml-auto lg:mr-8 btn btn-sm btn-outline btn-error"
-            onClick={() => modalRef.current.showModal()}
-          >
-            <BiLogOutCircle className="text-2xl" />
-            <span className="text-sm font-semibold">Salir</span>
-          </button>
-          <dialog ref={modalRef} className="modal">
-            <div className="modal-box">
-              <p className="text-xl font-semibold">Cerrar Sesión</p>
-              <p className="my-2">¿Estás seguro de cerrar sesión?</p>
-              <div className="flex items-center justify-evenly">
-                <form method="dialog">
-                  <button className="btn">Cancelar</button>
-                </form>
-                <button
-                  className="btn btn-outline btn-error"
-                  onClick={onLogout}
-                >
-                  Cerrar sesión
-                </button>
-              </div>
-            </div>
-          </dialog>
-          <Link
-            to={"/profile"}
-            className="hidden lg:inline-block w-8 h-8 rounded-full"
-          >
-            <img src={photoURL} alt="" className="w-full h-full rounded-full" />
-          </Link>
+          <div className="lg:flex items-center gap-4 hidden">
+            <LogOutModal onLogout={onLogout} />
+
+            <Link to={"/profile"} className="w-8 h-8 rounded-full">
+              <img
+                src={photoURL ? photoURL : "/img/noUser.jpg"}
+                alt=""
+                className="w-full h-full rounded-full"
+              />
+            </Link>
+          </div>
         </div>
 
         {/* Mobile */}
@@ -117,9 +99,9 @@ export const Navbar = () => {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M6 18L18 6M6 6l12 12"
                   ></path>
                 </svg>
@@ -128,7 +110,7 @@ export const Navbar = () => {
             <div>
               <ul>
                 {NavOptions.map((option) => (
-                  <li className="mb-1" onClick={toggleNavbar}>
+                  <li className="mb-1" onClick={toggleNavbar} key={option.name}>
                     <Link
                       to={option.link}
                       className="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
@@ -141,19 +123,14 @@ export const Navbar = () => {
             </div>
             <div className="mt-auto">
               <div className="pt-6">
-                <button
-                  className="inline-block w-full m-auto btn btn-md mb-2 btn-outline btn-error leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-red-100 rounded-xl"
-                  onClick={() => modalRef.current.showModal()}
-                >
-                  Cerrar sesión
-                </button>
+                {/* <LogOutModal onLogout={onLogout} /> */}
                 <Link
                   className="flex items-center justify-center gap-4 btn btn-md btn-outline mb-2 leading-loose"
                   to={"/profile"}
                   onClick={toggleNavbar}
                 >
                   <img
-                    src={photoURL}
+                    src={photoURL ? photoURL : "/img/noUser.jpg"}
                     alt="avatar..."
                     className="w-8 h-8 rounded-full"
                   />

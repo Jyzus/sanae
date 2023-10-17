@@ -1,14 +1,15 @@
-import { BrowserRouter } from "react-router-dom";
-import { Router } from "./Router";
+import { Router } from "@routes/Router";
 import { Provider } from "react-redux";
 import { store } from "./store";
+
+import { NextUIProvider } from "@nextui-org/react";
 
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <NextUIProvider>
         <Router />
-      </BrowserRouter>
+      </NextUIProvider>
     </Provider>
   );
 }
