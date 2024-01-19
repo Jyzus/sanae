@@ -28,6 +28,7 @@
       "@hooks/*": ["hooks/*"],
       "@helpers/*": ["helpers/*"],
       "@store/*": ["store/*"],
+      "@supabase/*": ["supabase/*"]
     }
   },
   "include": ["src"],

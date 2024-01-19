@@ -1,26 +1,14 @@
-import { useCustomDispatch, useCustomSelector } from "@hooks/redux";
-import { Input, Select, SelectItem, Textarea } from "@nextui-org/react";
-import { getListOfCourses } from "@store/app/thunks";
-import { useEffect } from "react";
+import { Input, Textarea } from "@nextui-org/react";
 import { FieldValues } from "react-hook-form";
 import { ModalAddCourse } from "./ModalAddCourse";
 
 export const ExamAdd = () => {
-  const { listOfCourses } = useCustomSelector((state) => state.app);
-
-  const dispatch = useCustomDispatch();
-
   const handleNewCourse = (value: FieldValues) => {
     console.log(value);
   };
   const onSubmit = (value: FieldValues) => {
     console.log(value);
   };
-
-  useEffect(() => {
-    dispatch(getListOfCourses());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="max-w-3xl mx-auto mt-4 p-4 rounded-md bg-white shadow-md">
@@ -30,12 +18,12 @@ export const ExamAdd = () => {
       {/* Formulario */}
       <form onSubmit={onSubmit}>
         <div className="flex items-center gap-4 w-full mt-4">
-          <Select label="Elige un curso">
+          {/* <Select label="Elige un curso">
             {listOfCourses &&
               listOfCourses.map((course: string, key: number) => (
                 <SelectItem key={key}>{course}</SelectItem>
               ))}
-          </Select>
+          </Select> */}
           <ModalAddCourse handleNewCourse={handleNewCourse} />
         </div>
         <div className="mt-4 flex flex-col sm:flex-row gap-4 w-full">

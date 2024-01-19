@@ -1,15 +1,21 @@
 import { ButtonLogin } from "@components/buttons/ButtonLogin";
-import { useCustomDispatch, useCustomSelector } from "@hooks/redux";
-import { startSignInWithGoogle } from "../../../store/auth/thunks";
+import {
+  signInWithGithub,
+  signInWithGoogle,
+} from "../../../supabase/providers/auth";
 import { LogoPath } from "../../components/LogoPath";
+import { supabase } from "../../../supabase/config";
+import { useEffect, useState } from "react";
+import { Session } from "@supabase/supabase-js";
 
 export const LoginPage = () => {
-  const { errorMessage } = useCustomSelector((state) => state.auth);
-  const dispatch = useCustomDispatch();
-
-  const onGoogleSignIn = () => {
-    dispatch(startSignInWithGoogle());
-  };
+  const [session, setSession] = useState<Session | null>(null);
+  console.log(session);
+  useEffect(() => {
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => setSession(session));
+  }, []);
   return (
     <div className="relative py-4 md:py-16 bg-gradient-to-br from-sky-50 to-gray-200 min-h-screen flex items-center justify-center">
       <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
@@ -25,13 +31,13 @@ export const LoginPage = () => {
               <div className="mt-16 grid space-y-4">
                 <ButtonLogin
                   text="Continuar con Google"
-                  icon="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png"
-                  onClick={onGoogleSignIn}
+                  icon="https://cdn.iconscout.com/icon/free/png-256/free-google-1772223-1507807.png"
+                  onClick={signInWithGoogle}
                 />
                 <ButtonLogin
                   text="Continuar con Github"
                   icon="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
-                  disable
+                  onClick={signInWithGithub}
                 />
                 <ButtonLogin
                   text="Continuar con Facebook"
@@ -39,11 +45,11 @@ export const LoginPage = () => {
                   disable
                 />
               </div>
-              {errorMessage && (
+              {/* {errorMessage && (
                 <div className="w-full h-12 bg-red-500 rounded-lg text-white font-semibold flex items-center justify-center mt-4 shadow-lg">
                   {errorMessage}
                 </div>
-              )}
+              )} */}
 
               {/* Términos y condiciones */}
               <div className="mt-32 space-y-4 text-gray-600 text-center sm:-mb-8">

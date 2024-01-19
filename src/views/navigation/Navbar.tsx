@@ -1,6 +1,4 @@
 import { LogoPath } from "@components/LogoPath";
-import { useCustomDispatch, useCustomSelector } from "@hooks/redux";
-import { startLogout } from "@store/auth/thunks";
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { LogOutModal } from "./LogOutModal";
@@ -8,16 +6,13 @@ import { NavOptions } from "./NavOptions";
 import { NavbarLink } from "./NavbarLink";
 
 export const Navbar = () => {
-  const { photoURL, displayName } = useCustomSelector((state) => state.auth);
   const [navbar, setNavbar] = useState(false);
-
-  const dispatch = useCustomDispatch();
 
   const toggleNavbar = () => {
     setNavbar(!navbar);
   };
   const onLogout = () => {
-    dispatch(startLogout());
+    console.log("saliendo");
   };
   return (
     <>
@@ -61,13 +56,13 @@ export const Navbar = () => {
           <div className="lg:flex items-center gap-4 hidden">
             <LogOutModal onLogout={onLogout} />
 
-            <Link to={"/profile"} className="w-8 h-8 rounded-full">
+            {/* <Link to={"/profile"} className="w-8 h-8 rounded-full">
               <img
-                src={photoURL ? photoURL : "/img/noUser.jpg"}
+                src={photoURL ?? "/img/noUser.jpg"}
                 alt=""
                 className="w-full h-full rounded-full"
               />
-            </Link>
+            </Link> */}
           </div>
         </div>
 
@@ -129,12 +124,12 @@ export const Navbar = () => {
                   to={"/profile"}
                   onClick={toggleNavbar}
                 >
-                  <img
+                  {/* <img
                     src={photoURL ? photoURL : "/img/noUser.jpg"}
                     alt="avatar..."
                     className="w-8 h-8 rounded-full"
                   />
-                  <span>{displayName}</span>
+                  <span>{displayName}</span> */}
                 </Link>
               </div>
             </div>

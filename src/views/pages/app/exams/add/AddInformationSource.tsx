@@ -1,26 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { FieldValues } from "react-hook-form";
-import { addExamsCourse, getExamsCourses } from "@store/exams/thunkExamCreate";
 
 export const AddInformationSource = () => {
-  const dispatch = useDispatch();
-
   const [addCourse, setAddCourse] = useState(false);
-  const { courses } = useSelector((state) => state.examsCreate);
 
   const handleAddCourse = () => {
     setAddCourse(!addCourse);
   };
-
-  const sendCourse = (value: FieldValues) => {
-    dispatch(addExamsCourse(value));
-  };
-
-  useEffect(() => {
-    dispatch(getExamsCourses());
-  }, []);
   return (
     <>
       <div className="modal-box">
@@ -36,13 +22,13 @@ export const AddInformationSource = () => {
                 defaultValue={"---"}
               >
                 <option value={"empty"}>Elige un curso</option>
-                {courses.length > 0
+                {/* {courses.length > 0
                   ? courses.map((course: any) => (
                       <option value={course.id} key={course.id}>
                         {course.course}
                       </option>
                     ))
-                  : null}
+                  : null} */}
               </select>
               {!addCourse ? (
                 <button
