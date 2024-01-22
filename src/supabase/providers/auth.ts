@@ -8,9 +8,17 @@ export const logout = async () => {
 export const signInWithGoogle = async () => {
   const response = await supabase.auth.signInWithOAuth({
     provider: "google",
+    options: {
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
+    },
   });
 
-  return response
+  console.log("Rpt: ", response);
+
+  return response;
 };
 
 export const signInWithGithub = async () => {

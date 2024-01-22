@@ -4,8 +4,13 @@ import { Link, Outlet } from "react-router-dom";
 import { LogOutModal } from "./LogOutModal";
 import { NavOptions } from "./NavOptions";
 import { NavbarLink } from "./NavbarLink";
+import { useAuthStore } from "@store/auth/authStore";
+import Button from "@views/components/ui/button/Button";
+import { IoMdClose } from "react-icons/io";
+import { IoMdMenu } from "react-icons/io";
 
 export const Navbar = () => {
+  const status = useAuthStore((state) => state.status);
   const [navbar, setNavbar] = useState(false);
 
   const toggleNavbar = () => {
@@ -25,52 +30,54 @@ export const Navbar = () => {
             <LogoPath />
             <span className="">Sanae</span>
           </Link>
-          <div className="lg:hidden">
+          <div className="md:hidden">
             <button
               className={`${
                 navbar ? "text-red-600 rotate-90" : "text-blue-600"
-              } navbar-burger flex items-center p-3 duration-200`}
+              }  flex items-center duration-200 text-2xl`}
               onClick={toggleNavbar}
             >
-              <svg
-                className="block h-4 w-4 fill-current"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-              </svg>
+              <IoMdMenu />
             </button>
           </div>
-          <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex gap-8 lg:items-center lg:w-auto lg:space-x-6">
+          <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto md:flex gap-8 lg:items-center lg:w-auto lg:space-x-6">
             {NavOptions.map((option) => (
-              <li key={option.name}>
+              <li key={option.name} className="font-medium">
                 <NavbarLink
                   name={option.name}
                   link={option.link}
-                  active="text-sm text-principal font-bold"
-                  pending="text-sm text-gray-400 hover:text-gray-500"
+                  active="text-sm text-main-500 font-bold"
+                  pending="text-sm text-default-500 hover:text-gray-500"
                 />
               </li>
             ))}
           </ul>
-          <div className="lg:flex items-center gap-4 hidden">
-            <LogOutModal onLogout={onLogout} />
-
-            {/* <Link to={"/profile"} className="w-8 h-8 rounded-full">
-              <img
-                src={photoURL ?? "/img/noUser.jpg"}
-                alt=""
-                className="w-full h-full rounded-full"
-              />
-            </Link> */}
+          <div className="md:flex items-center gap-4 hidden">
+            {status == "Authenticated" && (
+              <>
+                <LogOutModal onLogout={onLogout} />{" "}
+                {/* <Link to={"/profile"} className="w-8 h-8 rounded-full">
+  <img
+    src={photoURL ?? "/img/noUser.jpg"}
+    alt=""
+    className="w-full h-full rounded-full"
+  />
+</Link> */}
+              </>
+            )}
+            {status == "not-Authenticated" && (
+              <>
+                <Button label="Iniciar sesión" />
+              </>
+            )}
           </div>
         </div>
 
-        {/* Mobile */}
+        {/* // *Mobile */}
         <div
           className={`${
             navbar ? "" : "invisible"
-          } navbar-menu relative z-50 lg:hidden duration-200`}
+          } navbar-menu relative z-50 md:hidden duration-200`}
         >
           <div
             className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"
@@ -82,24 +89,18 @@ export const Navbar = () => {
             } duration-200 fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto`}
           >
             <div className="flex items-center mb-8">
-              <a className="mr-auto text-3xl font-bold leading-none" href="#">
+              <a
+                className="flex items-center mr-auto text-3xl font-bold leading-none"
+                href="#"
+              >
+                <LogoPath />
                 <p>Sanae</p>
               </a>
-              <button className="navbar-close" onClick={toggleNavbar}>
-                <svg
-                  className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
+              <button
+                className="text-2xl text-danger-500"
+                onClick={toggleNavbar}
+              >
+                <IoMdClose />
               </button>
             </div>
             <div>
@@ -117,21 +118,26 @@ export const Navbar = () => {
               </ul>
             </div>
             <div className="mt-auto">
-              <div className="pt-6">
-                {/* <LogOutModal onLogout={onLogout} /> */}
-                <Link
-                  className="flex items-center justify-center gap-4 btn btn-md btn-outline mb-2 leading-loose"
-                  to={"/profile"}
-                  onClick={toggleNavbar}
-                >
-                  {/* <img
+              {status == "Authenticated" && (
+                <div className="pt-6">
+                  <LogOutModal onLogout={onLogout} />
+                  <Link
+                    className="flex items-center justify-center gap-4 btn btn-md btn-outline mb-2 leading-loose"
+                    to={"/profile"}
+                    onClick={toggleNavbar}
+                  >
+                    {/* <img
                     src={photoURL ? photoURL : "/img/noUser.jpg"}
                     alt="avatar..."
                     className="w-8 h-8 rounded-full"
                   />
                   <span>{displayName}</span> */}
-                </Link>
-              </div>
+                  </Link>
+                </div>
+              )}
+              {status == "not-Authenticated" && (
+                <Button label="Iniciar sesión" className="w-full" />
+              )}
             </div>
           </nav>
         </div>

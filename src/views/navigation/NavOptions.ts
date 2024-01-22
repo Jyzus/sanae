@@ -8,7 +8,7 @@ export const NavOptions = [
     name: "Exámenes",
   },
   {
-    link: "/notes",
-    name: "Apuntes",
+    link: "/courses",
+    name: "Cursos",
   },
 ];

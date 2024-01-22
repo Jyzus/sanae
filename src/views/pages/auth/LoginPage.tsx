@@ -1,21 +1,7 @@
-import { ButtonLogin } from "@components/buttons/ButtonLogin";
-import {
-  signInWithGithub,
-  signInWithGoogle,
-} from "../../../supabase/providers/auth";
+import { ButtonLogin } from "@views/components/ui/button/ButtonLogin";
 import { LogoPath } from "../../components/LogoPath";
-import { supabase } from "../../../supabase/config";
-import { useEffect, useState } from "react";
-import { Session } from "@supabase/supabase-js";
 
 export const LoginPage = () => {
-  const [session, setSession] = useState<Session | null>(null);
-  console.log(session);
-  useEffect(() => {
-    supabase.auth
-      .getSession()
-      .then(({ data: { session } }) => setSession(session));
-  }, []);
   return (
     <div className="relative py-4 md:py-16 bg-gradient-to-br from-sky-50 to-gray-200 min-h-screen flex items-center justify-center">
       <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
@@ -32,12 +18,11 @@ export const LoginPage = () => {
                 <ButtonLogin
                   text="Continuar con Google"
                   icon="https://cdn.iconscout.com/icon/free/png-256/free-google-1772223-1507807.png"
-                  onClick={signInWithGoogle}
                 />
                 <ButtonLogin
                   text="Continuar con Github"
                   icon="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
-                  onClick={signInWithGithub}
+                  disable
                 />
                 <ButtonLogin
                   text="Continuar con Facebook"
