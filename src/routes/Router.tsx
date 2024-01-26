@@ -19,8 +19,8 @@ export const Router = () => {
           </>
         ) : (
           <>
-            <Route path="/*" element={<AppRoutes />} />
             <Route path="/auth/*" element={<AuthRoutes />} />
+            <Route path="/*" element={<AppRoutes />} />
           </>
         )}
       </Routes>

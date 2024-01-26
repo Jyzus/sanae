@@ -67,7 +67,7 @@ export const Navbar = () => {
             )}
             {status == "not-Authenticated" && (
               <>
-                <Button label="Iniciar sesión" />
+                <Button label="Iniciar sesión" link="/auth/login" />
               </>
             )}
           </div>

@@ -1,3 +1,5 @@
+import { AuthError } from "@supabase/supabase-js";
+
 export type authState = State & Action;
 
 interface State {
@@ -6,11 +8,12 @@ interface State {
   username: null | string;
   photoURL: null | string;
   uid: null | string;
+  errorStatus: null | AuthError;
 }
 
 interface Action {
   checking: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  loginWithGoogle: (response: any) => void;
+  signUp: (fieldValues) => Promise<void>;
+  login: (fieldValues) => void;
   logout: () => void;
 }

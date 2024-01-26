@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { authState } from "./authState";
-import { loginWithGoogle } from "../../service/auth/loginWithGoogle";
+import { signUp } from "../../supabase/providers/auth";
 
 export const useAuthStore = create<authState>((set) => ({
   status: "not-Authenticated",
@@ -8,17 +8,19 @@ export const useAuthStore = create<authState>((set) => ({
   username: null,
   photoURL: null,
   uid: null,
+  errorStatus: null,
 
   checking: () => set(() => ({ status: "checking" })),
-  loginWithGoogle: (reponse) => {
-    const response = loginWithGoogle(reponse);
+  signUp: async (fieldValues) => {
+    const response = await signUp(fieldValues);
+    if (response.error) {
+      set({ errorStatus: response.error });
+    }
     console.log(response);
+  },
+  login: () => {
     set(() => ({
       status: "Authenticated",
-      // email: response.email,
-      // username: response.username,
-      // photoURL: response.photoURL,
-      // uid: response.uid,
     }));
   },
   logout: () =>

@@ -1,37 +1,36 @@
-import { Button as ButtonNUI } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 import { Colors, colors } from "../color";
+import { Button as ButtonNUI } from "@nextui-org/react";
 
 interface Props {
-  label?: string;
+  label: string;
+  to: string;
   icon?: JSX.Element;
   isOnlyIcon?: boolean;
   className?: string;
   color?: Colors;
-  onClick?: () => void;
-  type?: "button" | "reset" | "submit";
 }
 
-const Button = ({
+const ButtonLink = ({
   label,
+  to,
+  color = "primary",
+  className,
   icon,
   isOnlyIcon,
-  className,
-  color = "primary",
-  onClick,
-  type = "button",
 }: Props) => {
+  const navigate = useNavigate();
   return (
     <ButtonNUI
       isIconOnly={isOnlyIcon}
       startContent={icon}
       className={className}
       color={colors[color] as Colors}
-      onClick={onClick}
-      type={type}
+      onClick={() => navigate(to)}
     >
       {label}
     </ButtonNUI>
   );
 };
 
-export default Button;
+export default ButtonLink;

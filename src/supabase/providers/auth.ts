@@ -5,24 +5,14 @@ export const logout = async () => {
   return error;
 };
 
-export const signInWithGoogle = async () => {
-  const response = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
-    },
+export const signUp = async (fieldData: {
+  email: string;
+  password: string;
+}) => {
+  const { data, error } = await supabase.auth.signUp({
+    email: fieldData.email,
+    password: fieldData.password,
   });
 
-  console.log("Rpt: ", response);
-
-  return response;
-};
-
-export const signInWithGithub = async () => {
-  await supabase.auth.signInWithOAuth({
-    provider: "github",
-  });
+  return { data, error };
 };
