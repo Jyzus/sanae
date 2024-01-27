@@ -8,6 +8,7 @@ import { useAuthStore } from "@store/auth/authStore";
 import Button from "@views/components/ui/button/Button";
 import { IoMdClose } from "react-icons/io";
 import { IoMdMenu } from "react-icons/io";
+import ButtonLink from "@views/components/ui/button/ButtonLink";
 
 export const Navbar = () => {
   const status = useAuthStore((state) => state.status);
@@ -67,7 +68,7 @@ export const Navbar = () => {
             )}
             {status == "not-Authenticated" && (
               <>
-                <Button label="Iniciar sesión" link="/auth/login" />
+                <ButtonLink label="Iniciar sesión" to="/auth/login" />
               </>
             )}
           </div>
